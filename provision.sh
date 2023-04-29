@@ -45,14 +45,14 @@ sudo apt-get install postgis postgresql-$PGV-postgis-3 -y
 sudo apt install php-pgsql -y
 
 # set postgres superuser password - Make sure passwords change before deployment
-sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'e1k5FSYa4u1p';"
+sudo -u postgres -i psql -U postgres -d postgres -c "ALTER USER postgres PASSWORD 'e1k5FSYa4u1p';"
 
 # create new user and DB
-sudo -u postgres psql postgres -c "CREATE USER root WITH PASSWORD 'e1k5FSYa4u1p'"
-sudo -u postgres psql postgres -c "CREATE DATABASE sandbox OWNER 'root'"
-sudo -u postgres psql postgres -c "GRANT ALL PRIVILEGES ON DATABASE sandbox TO root"
-sudo -u postgres psql ocsi_insight -c "CREATE EXTENSION postgis";
-sudo -u postgres psql ocsi_insight -c "CREATE EXTENSION postgis_topology";
+sudo -u postgres -i psql -U postgres -d postgres -c "CREATE USER root WITH PASSWORD 'e1k5FSYa4u1p'"
+sudo -u postgres -i psql -U postgres -d postgres -c "CREATE DATABASE sandbox OWNER 'root'"
+sudo -u postgres -i psql -U postgres -d postgres -c "GRANT ALL PRIVILEGES ON DATABASE sandbox TO root"
+sudo -u postgres -i psql -U postgres -d postgres -c "CREATE EXTENSION postgis";
+sudo -u postgres -i psql -U postgres -d postgres -c "CREATE EXTENSION postgis_topology";
 
 # allow remote access & restart
 echo "listen_addresses = '*'" | sudo tee -a /etc/postgresql/$PGV/main/postgresql.conf
@@ -61,7 +61,17 @@ sudo ufw allow 5432/tcp
 sudo systemctl restart postgresql
 sudo service apache2 restart
 
+# set up composer stuff for php
+sudo php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+sudo php composer-setup.php
+sudo mv composer.phar /usr/local/bin/composer
 
+# PERMISSIONS
+sudo chmod 777 /var/www/html -R
+
+# change site root (VM ONLY)
+#sudo cp /var/www/html/000-default.conf /etc/apache2/sites-available/000-default.conf
+#sudo systemctl restart apache2
 
 
 
