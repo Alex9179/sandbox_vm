@@ -6,9 +6,6 @@ sudo apt-get upgrade
 apt-get install -y git
 apt-get install -y apache2
 
-# enable Apache mods
-sudo a2emod rewrite
-
 # set up PHP & Postgres versions
 PHPVER=8.1
 PGV=15
@@ -16,6 +13,9 @@ PGV=15
 # install stuff
 sudo apt-get install -y php$PHPVER
 apt-get install -y libapache2-mod-php$PHPVER
+
+# enable Apache mods
+sudo a2emod rewrite
 
 # restart to take effect
 service apache2 restart
