@@ -3,8 +3,8 @@ sudo apt-get update
 sudo apt-get upgrade
 
 # set up Linux, Git & Apache
-apt-get install -y git
-apt-get install -y apache2
+sudo apt-get install -y git
+sudo apt-get install -y apache2
 
 # set up PHP & Postgres versions
 PHPVER=8.1
@@ -12,7 +12,8 @@ PGV=15
 
 # install stuff
 sudo apt-get install -y php$PHPVER
-apt-get install -y libapache2-mod-php$PHPVER
+sudo apt-get install -y libapache2-mod-php$PHPVER
+sudo apt install net-tools
 
 # enable Apache mods
 sudo a2emod rewrite
@@ -32,13 +33,13 @@ sudo apt-get install -y php$PHPVER-curl
 sudo service apache2 restart
 
 # set up curl
- sudo apt-get install php-curl
- sudo service apache2 restart
+sudo apt-get install php-curl
+sudo service apache2 restart
 
 # postgres & postgis setup
 sudo apt install curl ca-certificates gnupg
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo add-apt-repository ppa:ubuntugis/ppa -y
 sudo apt-get update -y
 sudo apt-get install postgis postgresql-$PGV-postgis-3 -y

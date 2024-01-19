@@ -19,13 +19,13 @@ config.vm.box = "generic/ubuntu2204"
   end
 
 # back end code - comment out before we install it
-config.vm.synced_folder "C:/Users/alexr/Sandbox/sandbox_be", "/var/www/html"
+config.vm.synced_folder "../sandbox_be", "/var/www/html"
 
   # network stuff
   config.vm.network "forwarded_port", guest: 3306, host: 3306, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 5900, host: 5900, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 5432, host: 5432, host_ip: "127.0.0.1"
-  config.vm.network "forwarded_port", guest: 80, host: 80, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 80, host: 8081, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 5432, host: 5432, host_ip: "127.0.0.1"
 
 # install script
